@@ -1,0 +1,31 @@
+FROM image-registry.openshift-image-registry.svc:5000/slurm-system/munge:latest as build
+
+RUN dnf install -y xz gcc openssl-devel bzip2-devel zlib-devel procps-ng bzip2 perl perl-devel
+
+RUN mkdir /tmp/src
+WORKDIR /tmp/src
+
+RUN curl -LO https://download.schedmd.com/slurm/slurm-22.05.6.tar.bz2 && \
+    tar xf slurm-22.05.6.tar.bz2 && \
+    cd slurm-22.05.6 && \
+    ./configure \
+     --prefix=/usr \
+     --sysconfdir=/etc && \
+    make && \
+    make install
+
+FROM image-registry.openshift-image-registry.svc:5000/slurm-system/munge:latest
+
+RUN dnf install -y bind-utils hostname iproute
+
+COPY --from=build /usr /usr
+COPY --from=build /etc /etc
+COPY --from=build /var /var
+
+RUN ldconfig && \
+    useradd -r -u 501 slurm && \
+    mkdir /var/spool/slurmctld && \
+    chown slurm:slurm /var/spool/slurmctld
+
+WORKDIR /
+CMD ['/sbin/slurmd', '-D']
