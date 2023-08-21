@@ -7,7 +7,7 @@ RUN mkdir /tmp/src
 WORKDIR /tmp/src
 
 RUN curl -LO https://github.com/dun/munge/releases/download/munge-${MUNGE_VERSION}/munge-${MUNGE_VERSION}.tar.xz && \
-    tar xJf munge-${MUNGE_VERSION}.tar.xz && \
+    tar xf munge-${MUNGE_VERSION}.tar.xz && \
     cd munge-${MUNGE_VERSION} && \
     ./configure \
      --prefix=/usr \
