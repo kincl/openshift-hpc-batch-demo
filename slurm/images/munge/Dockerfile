@@ -6,7 +6,7 @@ RUN dnf install -y xz gcc openssl-devel bzip2-devel zlib-devel procps-ng
 RUN mkdir /tmp/src
 WORKDIR /tmp/src
 
-RUN curl -LO https://github.com/dun/munge/releases/download/munge-${MUNGE_VERSION}/munge-${MUNGE_VERSION}.tar.xz && \
+RUN curl -LO https://github.com/dun/munge/releases/download/munge-${MUNGE_VERSION}/munge-${MUNGE_VERSION}.tar.bz2 && \
     tar xf munge-${MUNGE_VERSION}.tar.xz && \
     cd munge-${MUNGE_VERSION} && \
     ./configure \
