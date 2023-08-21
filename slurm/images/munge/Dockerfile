@@ -1,3 +1,4 @@
+ARG MUNGE_VERSION=0.5.15
 FROM registry.access.redhat.com/ubi9:9.1.0 as build
 
 RUN dnf install -y xz gcc openssl-devel bzip2-devel zlib-devel procps-ng
@@ -5,9 +6,9 @@ RUN dnf install -y xz gcc openssl-devel bzip2-devel zlib-devel procps-ng
 RUN mkdir /tmp/src
 WORKDIR /tmp/src
 
-RUN curl -LO https://github.com/dun/munge/releases/download/munge-0.5.15/munge-0.5.15.tar.xz && \
-    tar xJf munge-0.5.15.tar.xz && \
-    cd munge-0.5.15 && \
+RUN curl -LO https://github.com/dun/munge/releases/download/munge-${MUNGE_VERSION}/munge-${MUNGE_VERSION}.tar.xz && \
+    tar xJf munge-${MUNGE_VERSION}.tar.xz && \
+    cd munge-${MUNGE_VERSION} && \
     ./configure \
      --prefix=/usr \
      --sysconfdir=/etc \

@@ -1,3 +1,5 @@
+namespace: slurm-system
+
 commonLabels:
   app: slurm
 
@@ -12,5 +14,5 @@ configMapGenerator:
 - name: slurm-conf
   files:
     - configs/slurm.conf
-  options:
-    disableNameSuffixHash: true
+  # options:
+  #   disableNameSuffixHash: true

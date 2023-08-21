@@ -11,7 +11,7 @@ oc apply -k manifests/
 ## Create munge secret key
 
 ```
-oc create secret generic munge-key --from-file=munge.key=<(dd status=none if=/dev/urandom bs=1 count=128)
+oc -n slurm-system create secret generic munge-key --from-file=munge.key=<(dd status=none if=/dev/urandom bs=1 count=128)
 ```
 
 ## Build images
