@@ -1,5 +1,5 @@
-ARG SLURM_VERSION=23.02.4
 FROM image-registry.openshift-image-registry.svc:5000/slurm-system/munge:latest as build
+ARG SLURM_VERSION=23.02.4
 
 RUN dnf install -y xz gcc openssl-devel bzip2-devel zlib-devel procps-ng bzip2 perl perl-devel
 

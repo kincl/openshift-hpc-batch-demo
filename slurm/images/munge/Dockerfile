@@ -1,5 +1,5 @@
-ARG MUNGE_VERSION=0.5.15
 FROM registry.access.redhat.com/ubi9:latest as build
+ARG MUNGE_VERSION=0.5.15
 
 RUN dnf install -y xz gcc openssl-devel bzip2-devel zlib-devel procps-ng bzip2
 
