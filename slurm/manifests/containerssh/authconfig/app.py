@@ -12,7 +12,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         data = json.loads(self.rfile.read(int(self.headers.get('Content-Length'))))
 
         if "publicKey" in data.keys():
-            if data["publicKey"] == "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC8a9Y3Er6C6rN3HIOGIJf5x/nrngRfVBwL/e7lh0Xe2q8a53xEveWy4jk/4XLaD8g4mmTIzhqShfgUqr7zd/vVeMxr3ALRBuDU9/R36XA0OCfaJ0Rv6Xn9JZALv80bdHKWfSSOTdG3ujbIZ/cWHUUTzf51AXnX6YTZKn68ryBxzDuKHHDQ3rGZS6evjrtRlulkx5CLhFXvoAEATMZJtExz96sABC1/ookPhABeklp0ECl5uAfHh6r0JCU6sSywB5PdfBwjWOY8YUB4eDrvAASoTy3BIUHqwClc72CrSSxcpcVZYquTj785xMV0uduj99GxU4B0TVlkGocSqUngnTq8RS2Nb5960tLwcTJ+hvkn4mu+ehqehBcrnhvA8CXaT7WH9T27eROrhE1eIMKuYprP6DleXld3H4Smt+DKosWmdVUSLjTEaN31xis7lgXkoWDZNGJvwYotJo1xrmf0CZHgQCtbG/WKDkHydHchRvFPmkrUBBBQyBtuLlszOWJjQCyLlb1Ox29ouwH9XCOAO6iYZ2tsHHFnqOLNkcSbF5R17CJjcvbnEIKIwB6/7eSdAyRqP8GDv7Ukz4G3dUBMjkz0/IGI1F8ckA5X6MBJxO2g7Qw/osZ+/Y7oL3EhgV04b/cNcsA2zO5Ms3mZ/u1ZeuziJv8z1o7pOTUzCHzdTgEvLQ==":
+            if data["publicKey"] == "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDk9RLL24qZcbfmzKUsZo2G8EVVvYZhRc8V7fAcUqD/l+e1wKCpIMZwYyTUC5NXqm1XkO+A8Qh4VSTtUHSgWnAugvrihmKCXLxN84yuCkwMkaMg53R5q0/bQPp6vNG2S0kLd0cBLiS9NXI4+XvgGM6itx+FQncf9Nzd/6/0GmanFg1eRPAj6ucg0DGafQKX1pxlckUez1xYqvtc/UbtVzdRasmriKzLsoTX6MkmHCOqEMsUFPo9B3TjDzdSD3gbHvSqFd+t6jQsHAavp7vRfRxMu/AfkT3wXTpoSJen6hS+uCN4EHQ5b3UJgg+C1JudasWS6dBEn01Xkd5QwId9lFqH":
                 self.wfile.write(bytes("{\"success\": true}", "utf-8"))
             else:
                 print("not trusted: ", data)

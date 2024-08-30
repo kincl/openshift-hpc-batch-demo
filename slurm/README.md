@@ -5,6 +5,8 @@
 ## Apply manifests
 
 ```
+cd slurm
+oc create ns slurm-system
 oc apply -k manifests/
 ```
 
@@ -14,7 +16,7 @@ oc apply -k manifests/
 oc -n slurm-system create secret generic munge-key --from-file=munge.key=<(dd status=none if=/dev/urandom bs=1 count=128)
 ```
 
-## Build images
+## Create image builds
 
 ```
 oc new-build --name munge --binary
@@ -30,8 +32,40 @@ oc start-build login --from-dir=images/login --follow --no-cache
 
 # containerssh
 
-TODO: replace authconfig python with OPA example: https://github.com/ContainerSSH/examples/tree/main/opa/containerssh
+```
+oc new-project containerssh
+```
+
+Set your user ssh public key into the authentication app (hardcoded)
+
+```
+sed -i -e "s#ssh-rsa.*#$(cat ~/.ssh/id_rsa.pub)#" manifests/containerssh/authconfig/app.py
+```
+
+TODO: Automate or script this part
+Generate host key and create a secret for it
+
+```
+openssl rsa -in mykey.pem -pubout > mykey.pub
+oc create secret generic -n containerssh  containerssh-hostkey --from-file=host.key=mykey.pem
+```
+
 
 ```
 oc apply -k manifests/containerssh
 ```
+
+# Checks
+
+Check thats pods in projects `slurm-system` and `containerssh` are up and running:
+
+```
+oc get pods -n containerssh
+oc get pods -n slurm-system
+```
+
+You are ready for the demo and you can return to [the main demo README](../README.md) 
+
+
+
+

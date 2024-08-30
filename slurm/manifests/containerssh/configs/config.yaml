@@ -26,7 +26,7 @@ kubernetes:
       serviceAccountName: slurm
       initContainers:
       - name: fix-munge-paths
-        image: quay.io/jkincl/munge:latest
+        image: image-registry.openshift-image-registry.svc:5000/slurm-system/munge:latest
         command:
         - sh
         - -c
@@ -34,6 +34,9 @@ kubernetes:
         volumeMounts:
         - name: munge-key
           mountPath: /etc/munge
+        - name: slurm-conf
+          mountPath: /etc/slurm.conf
+          subPath: slurm.conf
         - name: munge-key-secret
           mountPath: /var/secrets/munge.key
           subPath: munge.key
@@ -41,7 +44,7 @@ kubernetes:
           mountPath: /run/munge
       containers:
       - name: shell
-        image: quay.io/jkincl/login:latest
+        image: image-registry.openshift-image-registry.svc:5000/slurm-system/login:latest
         securityContext:
           runAsUser: 1000
           runAsGroup: 1000
@@ -54,7 +57,7 @@ kubernetes:
         - name: shared
           mountPath: /home
       - name: munge
-        image: quay.io/jkincl/munge:latest
+        image: image-registry.openshift-image-registry.svc:5000/slurm-system/munge:latest
         command:
         - /sbin/munged
         - -F
@@ -69,16 +72,13 @@ kubernetes:
       volumes:
       - name: munge-socket
         emptyDir: {}
+      - name: slurm-conf
+        configMap:
+          name: slurm-conf
       - name: munge-key
         emptyDir: {}
       - name: munge-key-secret
         secret:
           secretName: munge-key
-      - name: slurm-conf
-        configMap:
-          name: slurm-conf
-
       - name: shared
-        nfs:
-          server: 10.1.0.62
-          path: /
+        emptyDir: {}

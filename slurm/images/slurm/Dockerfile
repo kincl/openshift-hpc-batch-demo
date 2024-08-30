@@ -1,14 +1,14 @@
 FROM image-registry.openshift-image-registry.svc:5000/slurm-system/munge:latest as build
-ARG SLURM_VERSION=23.02.4
+ARG SLURM_VERSION=24.05.3
 
 RUN dnf install -y xz gcc openssl-devel bzip2-devel zlib-devel procps-ng bzip2 perl perl-devel
 
 RUN mkdir /tmp/src
 WORKDIR /tmp/src
 
-RUN curl -LO https://download.schedmd.com/slurm/slurm-${SLRUM_VERSION}.tar.bz2 && \
-    tar xf slurm-${SLRUM_VERSION}.tar.bz2 && \
-    cd slurm-${SLRUM_VERSION} && \
+RUN curl -LO https://download.schedmd.com/slurm/slurm-${SLURM_VERSION}.tar.bz2 && \
+    tar xf slurm-${SLURM_VERSION}.tar.bz2 && \
+    cd slurm-${SLURM_VERSION} && \
     ./configure \
      --prefix=/usr \
      --sysconfdir=/etc && \
@@ -26,7 +26,10 @@ COPY --from=build /var /var
 RUN ldconfig && \
     useradd -r -u 501 slurm && \
     mkdir /var/spool/slurmctld && \
-    chown slurm:slurm /var/spool/slurmctld
+    chown slurm:slurm /var/spool/slurmctld && \
+    mkdir /var/spool/slurmd && \
+    chown slurm:slurm /var/spool/slurmd
+
 
 WORKDIR /
 CMD ['/sbin/slurmd', '-D']

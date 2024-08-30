@@ -14,5 +14,11 @@ configMapGenerator:
 - name: slurm-conf
   files:
     - configs/slurm.conf
-  # options:
-  #   disableNameSuffixHash: true
+  options:
+    disableNameSuffixHash: true
+    labels:
+      app: slurm
+- name: cgroup-conf
+  files:
+    - configs/cgroup.conf
+

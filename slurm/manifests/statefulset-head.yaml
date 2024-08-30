@@ -30,7 +30,7 @@ spec:
       serviceAccountName: slurm
       initContainers:
       - name: fix-munge-paths
-        image: quay.io/jkincl/munge:latest
+        image: image-registry.openshift-image-registry.svc:5000/slurm-system/munge:latest
         command:
         - sh
         - -c
@@ -45,7 +45,7 @@ spec:
           mountPath: /run/munge
       containers:
       - name: munge
-        image: quay.io/jkincl/munge:latest
+        image: image-registry.openshift-image-registry.svc:5000/slurm-system/munge:latest
         command:
         - /sbin/munged
         - -F
@@ -59,7 +59,7 @@ spec:
         - name: munge-key
           mountPath: /etc/munge
       - name: slurm
-        image: quay.io/jkincl/slurm:latest
+        image: image-registry.openshift-image-registry.svc:5000/slurm-system/slurm:latest
         command:
         - /sbin/slurmctld
         - -D
@@ -74,6 +74,9 @@ spec:
         - name: slurm-conf
           mountPath: /etc/slurm.conf
           subPath: slurm.conf
+        - name: cgroup-conf
+          mountPath: /etc/cgroup.conf
+          subPath: cgroup.conf
         # - name: shared
         #   mountPath: /home
       volumes:
@@ -82,7 +85,9 @@ spec:
       - name: slurm-conf
         configMap:
           name: slurm-conf
-
+      - name: cgroup-conf
+        configMap:
+          name: cgroup-conf
       - name: munge-key
         emptyDir: {}
       - name: munge-key-secret
