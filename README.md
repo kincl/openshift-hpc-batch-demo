@@ -1,3 +1,5 @@
+This demo has been updated and moved to https://github.com/naps-product-sa/openshift-batch
+
 # HPC Batch on OpenShift Demo
 
 This work is part of a survey of some of the options for running HPC batch
